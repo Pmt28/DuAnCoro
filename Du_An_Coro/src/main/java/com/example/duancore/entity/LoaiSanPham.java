@@ -13,14 +13,14 @@ public class LoaiSanPham {
     private String maLSP;
 
     private String ten;
-    private Date ngayTao;
-    private Date ngaySua;
+    private String ngayTao;
+    private String ngaySua;
     private int trangThai;
 
     public LoaiSanPham() {
     }
 
-    public LoaiSanPham(String maLSP, String ten, Date ngayTao, Date ngaySua, int trangThai) {
+    public LoaiSanPham(String maLSP, String ten,String ngayTao, String ngaySua, int trangThai) {
         this.maLSP = maLSP;
         this.ten = ten;
         this.ngayTao = ngayTao;
@@ -44,19 +44,19 @@ public class LoaiSanPham {
         this.ten = ten;
     }
 
-    public Date getNgayTao() {
+    public String getNgayTao() {
         return ngayTao;
     }
 
-    public void setNgayTao(Date ngayTao) {
+    public void setNgayTao(String ngayTao) {
         this.ngayTao = ngayTao;
     }
 
-    public Date getNgaySua() {
+    public String getNgaySua() {
         return ngaySua;
     }
 
-    public void setNgaySua(Date ngaySua) {
+    public void setNgaySua(String ngaySua) {
         this.ngaySua = ngaySua;
     }
 

@@ -5,12 +5,10 @@ import com.example.duancore.entity.LoaiSanPham;
 import com.example.duancore.service.LoaiSanPhamService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,11 +17,15 @@ public class LoaiSanPhamController {
     private LoaiSanPhamService  loaiSanPhamService;
 
     @GetMapping("/loai-san-pham/hien-thi")
-    public String hienThiChatLieu(Model model) {
-        List<LoaiSanPham> chatLieus = loaiSanPhamService.getAllLoaiSanPham();
-        model.addAttribute("loaiSanPham", chatLieus);
+    public String hienThiLoaiSP(@RequestParam(name = "page",defaultValue = "0") Integer pageNo, Model model) {
+
+        Page<LoaiSanPham> page = loaiSanPhamService.findPage(pageNo,3);
+        model.addAttribute("loaiSP",page.getContent());
+        model.addAttribute("currentPage",page.getNumber());
+        model.addAttribute("totalPages",page.getTotalPages());
+
         model.addAttribute("lsp", new LoaiSanPham());
-        return "/loaisanpham/loai-san-pham";
+        return "/loaiSP/loai-san-pham";
     }
 
     @PostMapping("/loai-san-pham/add")
@@ -58,6 +60,16 @@ public class LoaiSanPhamController {
     public String update(@ModelAttribute LoaiSanPham loaiSanPham, Model model) {
         loaiSanPhamService.updateLoaiSanPham(loaiSanPham);
         model.addAttribute("loaiSanPhams", loaiSanPham);
+        return "redirect:/loai-san-pham/hien-thi";
+    }
+    @PostMapping("/loai-san-pham/sreach")
+    public String sreach(@RequestParam(name = "page",defaultValue = "0") Integer pageNo,@RequestParam("ten") String ten,@RequestParam("trangThai") String trangThai, Model model) {
+        Page<LoaiSanPham> page = loaiSanPhamService.findPage(pageNo,3);
+        model.addAttribute("ten", loaiSanPhamService.sreach(ten,trangThai));
+        model.addAttribute("currentPage",page.getNumber());
+        model.addAttribute("totalPages",page.getTotalPages());
+        model.addAttribute("loaiSP",page.getContent());
+
         return "redirect:/loai-san-pham/hien-thi";
     }
 }
